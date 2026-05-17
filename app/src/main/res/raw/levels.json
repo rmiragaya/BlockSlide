@@ -1,0 +1,487 @@
+{
+  "version": 1,
+  "levels": [
+    {
+      "id": "level-001",
+      "title": "Primer impulso",
+      "layout": [
+        "#####",
+        "#...#",
+        "#...#",
+        "#...#",
+        "#####"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 2, "col": 2 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 2 }
+      ]
+    },
+    {
+      "id": "level-002",
+      "title": "Linea recta",
+      "layout": [
+        "######",
+        "#....#",
+        "#....#",
+        "#....#",
+        "######"
+      ],
+      "blocks": [
+        { "id": "b1", "color": "blue", "row": 2, "col": 1 }
+      ],
+      "targets": [
+        { "color": "blue", "row": 2, "col": 4 }
+      ]
+    },
+    {
+      "id": "level-003",
+      "title": "Dos ejes",
+      "layout": [
+        "#######",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#######"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 3, "col": 3 },
+        { "id": "b1", "color": "blue", "row": 3, "col": 1 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 3 },
+        { "color": "blue", "row": 3, "col": 5 }
+      ]
+    },
+    {
+      "id": "level-004",
+      "title": "Deja pasar",
+      "layout": [
+        "#######",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#.....#",
+        "#######"
+      ],
+      "blocks": [
+        { "id": "g1", "color": "green", "row": 5, "col": 1 },
+        { "id": "y1", "color": "yellow", "row": 1, "col": 1 }
+      ],
+      "targets": [
+        { "color": "green", "row": 1, "col": 5 },
+        { "color": "yellow", "row": 5, "col": 1 }
+      ]
+    },
+    {
+      "id": "level-005",
+      "title": "Tres destinos",
+      "layout": [
+        "########",
+        "#......#",
+        "#......#",
+        "#......#",
+        "#......#",
+        "#......#",
+        "########"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 5, "col": 2 },
+        { "id": "b1", "color": "blue", "row": 1, "col": 5 },
+        { "id": "g1", "color": "green", "row": 3, "col": 1 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 2 },
+        { "color": "blue", "row": 5, "col": 5 },
+        { "color": "green", "row": 3, "col": 6 }
+      ]
+    },
+    {
+      "id": "level-006",
+      "title": "Muros internos",
+      "layout": [
+        "#########",
+        "#.......#",
+        "#.###...#",
+        "#.......#",
+        "#...###.#",
+        "#.......#",
+        "#########"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 3, "col": 1 },
+        { "id": "b1", "color": "blue", "row": 5, "col": 7 },
+        { "id": "g1", "color": "green", "row": 1, "col": 1 }
+      ],
+      "targets": [
+        { "color": "red", "row": 3, "col": 7 },
+        { "color": "blue", "row": 1, "col": 7 },
+        { "color": "green", "row": 5, "col": 1 }
+      ]
+    },
+    {
+      "id": "level-007",
+      "title": "Orden importa",
+      "layout": [
+        "########",
+        "#......#",
+        "#..#...#",
+        "#......#",
+        "#...#..#",
+        "#......#",
+        "#......#",
+        "########"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 6, "col": 1 },
+        { "id": "b1", "color": "blue", "row": 1, "col": 6 },
+        { "id": "y1", "color": "yellow", "row": 3, "col": 1 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 1 },
+        { "color": "blue", "row": 6, "col": 6 },
+        { "color": "yellow", "row": 3, "col": 6 }
+      ]
+    },
+    {
+      "id": "level-008",
+      "title": "Pasillos",
+      "layout": [
+        "#########",
+        "#.......#",
+        "#.###.#.#",
+        "#.......#",
+        "#.#.###.#",
+        "#.......#",
+        "#.#.....#",
+        "#.......#",
+        "#########"
+      ],
+      "blocks": [
+        { "id": "c1", "color": "cyan", "row": 7, "col": 1 },
+        { "id": "p1", "color": "pink", "row": 1, "col": 7 },
+        { "id": "o1", "color": "orange", "row": 5, "col": 3 }
+      ],
+      "targets": [
+        { "color": "cyan", "row": 1, "col": 1 },
+        { "color": "pink", "row": 7, "col": 7 },
+        { "color": "orange", "row": 5, "col": 7 }
+      ]
+    },
+    {
+      "id": "level-009",
+      "title": "Cuatro rutas",
+      "layout": [
+        "#########",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#########"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 7, "col": 2 },
+        { "id": "b1", "color": "blue", "row": 1, "col": 6 },
+        { "id": "g1", "color": "green", "row": 4, "col": 1 },
+        { "id": "y1", "color": "yellow", "row": 2, "col": 4 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 2 },
+        { "color": "blue", "row": 7, "col": 6 },
+        { "color": "green", "row": 4, "col": 7 },
+        { "color": "yellow", "row": 7, "col": 4 }
+      ]
+    },
+    {
+      "id": "level-010",
+      "title": "Final chico",
+      "layout": [
+        "##########",
+        "#........#",
+        "#.##..##.#",
+        "#........#",
+        "#..#..#..#",
+        "#........#",
+        "#.##..##.#",
+        "#........#",
+        "#........#",
+        "##########"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 8, "col": 1 },
+        { "id": "b1", "color": "blue", "row": 1, "col": 8 },
+        { "id": "g1", "color": "green", "row": 5, "col": 1 },
+        { "id": "v1", "color": "purple", "row": 3, "col": 8 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 1 },
+        { "color": "blue", "row": 8, "col": 8 },
+        { "color": "green", "row": 5, "col": 8 },
+        { "color": "purple", "row": 3, "col": 1 }
+      ]
+    },
+    {
+      "id": "mechanic-011-open-edge",
+      "title": "Borde abierto",
+      "layout": [
+        "#####",
+        " ...#",
+        " ...#",
+        " ...#",
+        "#####"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 2, "col": 2 }
+      ],
+      "targets": [
+        { "color": "red", "row": 2, "col": 3 }
+      ]
+    },
+    {
+      "id": "mechanic-012-stopper",
+      "title": "Pegamento",
+      "layout": [
+        "######",
+        "#....#",
+        "#.S..#",
+        "#....#",
+        "######"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 2, "col": 1 }
+      ],
+      "targets": [
+        { "color": "red", "row": 2, "col": 4 }
+      ]
+    },
+    {
+      "id": "mechanic-013-linked",
+      "title": "Triangulo unido",
+      "layout": [
+        "########",
+        "#......#",
+        "#......#",
+        "#......#",
+        "#......#",
+        "#......#",
+        "#......#",
+        "########"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 2, "col": 2, "groupId": "triad" },
+        { "id": "b1", "color": "blue", "row": 2, "col": 3, "groupId": "triad" },
+        { "id": "g1", "color": "green", "row": 3, "col": 2, "groupId": "triad" }
+      ],
+      "targets": [
+        { "color": "red", "row": 2, "col": 5 },
+        { "color": "blue", "row": 2, "col": 6 },
+        { "color": "green", "row": 3, "col": 6 }
+      ]
+    },
+    {
+      "id": "mechanic-014-puck",
+      "title": "Bola de pool",
+      "layout": [
+        "######",
+        "#....#",
+        "#....#",
+        "#....#",
+        "######"
+      ],
+      "blocks": [
+        { "id": "r1", "color": "red", "row": 2, "col": 1 },
+        { "id": "p1", "color": "blue", "row": 2, "col": 2, "kind": "puck" }
+      ],
+      "targets": [
+        { "color": "red", "row": 2, "col": 1 },
+        { "color": "blue", "row": 2, "col": 4 }
+      ]
+    },
+    {
+      "id": "reference-015-getting-started",
+      "title": "Getting Started ref",
+      "layout": [
+        "........",
+        ".######.",
+        ".#....#.",
+        ".#....#.",
+        ".#....#.",
+        ".#....#.",
+        ".######.",
+        "........"
+      ],
+      "blocks": [
+        { "id": "blue-main", "color": "blue", "row": 2, "col": 2 },
+        { "id": "red-main", "color": "red", "row": 2, "col": 5 },
+        { "id": "green-main", "color": "green", "row": 5, "col": 2 },
+        { "id": "yellow-main", "color": "yellow", "row": 5, "col": 5 }
+      ],
+      "targets": [
+        { "color": "blue", "row": 3, "col": 2 },
+        { "color": "red", "row": 2, "col": 4 },
+        { "color": "green", "row": 5, "col": 3 },
+        { "color": "yellow", "row": 4, "col": 5 }
+      ]
+    },
+    {
+      "id": "reference-016-turning",
+      "title": "Turning ref",
+      "layout": [
+        "..........",
+        "......#...",
+        ".#......#.",
+        ".#....#...",
+        ".#....#...",
+        ".#.....#..",
+        ".#......#.",
+        ".######...",
+        "..........",
+        ".........."
+      ],
+      "blocks": [
+        { "id": "blue-main", "color": "blue", "row": 3, "col": 2 },
+        { "id": "green-main", "color": "green", "row": 3, "col": 3 }
+      ],
+      "targets": [
+        { "color": "blue", "row": 3, "col": 7 },
+        { "color": "green", "row": 6, "col": 2 }
+      ]
+    },
+    {
+      "id": "reference-017-the-a",
+      "title": "The A ref",
+      "layout": [
+        "..........",
+        ".########.",
+        "........#.",
+        ".#####..#.",
+        ".#...#..#.",
+        ".#......#.",
+        ".#......#.",
+        ".########.",
+        "..........",
+        ".........."
+      ],
+      "blocks": [
+        { "id": "red-main", "color": "red", "row": 4, "col": 2 },
+        { "id": "yellow-main", "color": "yellow", "row": 6, "col": 2 }
+      ],
+      "targets": [
+        { "color": "red", "row": 4, "col": 7 },
+        { "color": "yellow", "row": 5, "col": 7 }
+      ]
+    },
+    {
+      "id": "reference-018-trigroup",
+      "title": "TriGroup ref",
+      "layout": [
+        ".........",
+        ".#######.",
+        ".#.....#.",
+        ".#.....#.",
+        ".#.....#.",
+        ".#.....#.",
+        ".#.....#.",
+        ".#######.",
+        "........."
+      ],
+      "blocks": [
+        { "id": "red-main", "color": "red", "row": 2, "col": 2, "groupId": "tri-ref" },
+        { "id": "blue-main", "color": "blue", "row": 2, "col": 6, "groupId": "tri-ref" },
+        { "id": "green-main", "color": "green", "row": 6, "col": 2, "groupId": "tri-ref" }
+      ],
+      "targets": [
+        { "color": "green", "row": 5, "col": 6 },
+        { "color": "blue", "row": 6, "col": 5 },
+        { "color": "red", "row": 6, "col": 6 }
+      ]
+    },
+    {
+      "id": "reference-019-easy",
+      "title": "Easy ref",
+      "layout": [
+        ".......",
+        ".......",
+        "...#...",
+        "..#....",
+        "....#..",
+        "...#...",
+        "......."
+      ],
+      "blocks": [
+        { "id": "red-main", "color": "red", "row": 1, "col": 2 },
+        { "id": "yellow-main", "color": "yellow", "row": 1, "col": 4 },
+        { "id": "white-main", "color": "white", "row": 4, "col": 2 },
+        { "id": "blue-main", "color": "blue", "row": 3, "col": 4 }
+      ],
+      "targets": [
+        { "color": "red", "row": 1, "col": 3 },
+        { "color": "yellow", "row": 2, "col": 4 },
+        { "color": "white", "row": 2, "col": 2 },
+        { "color": "blue", "row": 3, "col": 3 }
+      ]
+    },
+    {
+      "id": "reference-020-open-field",
+      "title": "Open field ref",
+      "layout": [
+        "#########",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#.......#",
+        "#########"
+      ],
+      "blocks": [
+        { "id": "blue-main", "color": "blue", "row": 3, "col": 2 },
+        { "id": "red-main", "color": "red", "row": 3, "col": 5 },
+        { "id": "yellow-main", "color": "yellow", "row": 6, "col": 4 },
+        { "id": "pink-main", "color": "pink", "row": 6, "col": 7 }
+      ],
+      "targets": [
+        { "color": "yellow", "row": 1, "col": 4 },
+        { "color": "blue", "row": 2, "col": 6 },
+        { "color": "red", "row": 5, "col": 5 },
+        { "color": "pink", "row": 6, "col": 5 }
+      ]
+    },
+    {
+      "id": "reference-021-gravity",
+      "title": "Gravity ref",
+      "layout": [
+        "............",
+        ".#.#######.#",
+        ".#.........#",
+        ".#...#.#...#",
+        ".#..#####..#",
+        ".#.........#",
+        ".#..#####..#",
+        ".#.........#",
+        ".#########.#",
+        "............"
+      ],
+      "blocks": [
+        { "id": "green-main", "color": "green", "row": 1, "col": 2 },
+        { "id": "pink-main", "color": "pink", "row": 1, "col": 10 },
+        { "id": "green-second", "color": "green", "row": 3, "col": 6 },
+        { "id": "pink-second", "color": "pink", "row": 3, "col": 4 }
+      ],
+      "targets": [
+        { "color": "green", "row": 7, "col": 2 },
+        { "color": "pink", "row": 2, "col": 5 },
+        { "color": "green", "row": 2, "col": 6 },
+        { "color": "pink", "row": 1, "col": 10 }
+      ]
+    }
+  ]
+}
