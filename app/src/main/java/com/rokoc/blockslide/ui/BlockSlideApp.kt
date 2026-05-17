@@ -2,14 +2,13 @@ package com.rokoc.blockslide.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Button
@@ -46,23 +45,28 @@ fun BlockSlideApp(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            if (showEditor) {
-                LevelEditorScreen(
-                    onClose = { showEditor = false },
-                )
-            } else {
-                GameScreen(
-                    uiState = uiState,
-                    onTapCell = viewModel::tapCell,
-                    onSwipeFrom = viewModel::swipeFrom,
-                    onMove = viewModel::moveSelected,
-                    onUndo = viewModel::undo,
-                    onReset = viewModel::reset,
-                    onPrevious = viewModel::previousLevel,
-                    onNext = viewModel::nextLevel,
-                    onLevelSelected = viewModel::openLevel,
-                    onOpenEditor = { showEditor = true },
-                )
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .safeDrawingPadding(),
+            ) {
+                if (showEditor) {
+                    LevelEditorScreen(
+                        onClose = { showEditor = false },
+                    )
+                } else {
+                    GameScreen(
+                        uiState = uiState,
+                        onTapCell = viewModel::tapCell,
+                        onSwipeFrom = viewModel::swipeFrom,
+                        onUndo = viewModel::undo,
+                        onReset = viewModel::reset,
+                        onPrevious = viewModel::previousLevel,
+                        onNext = viewModel::nextLevel,
+                        onLevelSelected = viewModel::openLevel,
+                        onOpenEditor = { showEditor = true },
+                    )
+                }
             }
         }
     }
@@ -73,7 +77,6 @@ private fun GameScreen(
     uiState: GameUiState,
     onTapCell: (Position) -> Unit,
     onSwipeFrom: (Position, Direction) -> Unit,
-    onMove: (Direction) -> Unit,
     onUndo: () -> Unit,
     onReset: () -> Unit,
     onPrevious: () -> Unit,
@@ -156,7 +159,6 @@ private fun GameScreen(
         Controls(
             canUndo = gameState.history.isNotEmpty(),
             enabled = !uiState.inputLocked,
-            onMove = onMove,
             onUndo = onUndo,
             onReset = onReset,
         )
@@ -247,72 +249,26 @@ private fun LevelStrip(
 private fun Controls(
     canUndo: Boolean,
     enabled: Boolean,
-    onMove: (Direction) -> Unit,
     onUndo: () -> Unit,
     onReset: () -> Unit,
 ) {
-    Column(
+    Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            OutlinedButton(
-                onClick = onUndo,
-                enabled = enabled && canUndo,
-            ) {
-                Text("Deshacer")
-            }
-            OutlinedButton(
-                onClick = onReset,
-                enabled = enabled,
-            ) {
-                Text("Reiniciar")
-            }
-        }
-        DirectionPad(enabled = enabled, onMove = onMove)
-    }
-}
-
-@Composable
-private fun DirectionPad(
-    enabled: Boolean,
-    onMove: (Direction) -> Unit,
-) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(6.dp),
-    ) {
-        Button(
-            modifier = Modifier.size(width = 104.dp, height = 44.dp),
-            enabled = enabled,
-            onClick = { onMove(Direction.Up) },
+        OutlinedButton(
+            onClick = onUndo,
+            enabled = enabled && canUndo,
         ) {
-            Text("Arriba")
+            Text("Deshacer")
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Button(
-                modifier = Modifier.size(width = 92.dp, height = 44.dp),
-                enabled = enabled,
-                onClick = { onMove(Direction.Left) },
-            ) {
-                Text("Izq")
-            }
-            Button(
-                modifier = Modifier.size(width = 92.dp, height = 44.dp),
-                enabled = enabled,
-                onClick = { onMove(Direction.Right) },
-            ) {
-                Text("Der")
-            }
-        }
-        Button(
-            modifier = Modifier.size(width = 104.dp, height = 44.dp),
+        OutlinedButton(
+            modifier = Modifier.padding(start = 8.dp),
+            onClick = onReset,
             enabled = enabled,
-            onClick = { onMove(Direction.Down) },
         ) {
-            Text("Abajo")
+            Text("Reiniciar")
         }
-        Spacer(modifier = Modifier.height(2.dp))
     }
 }
