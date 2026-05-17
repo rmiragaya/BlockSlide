@@ -346,8 +346,8 @@
         ".........."
       ],
       "blocks": [
-        { "id": "blue-main", "color": "blue", "row": 3, "col": 2 },
-        { "id": "green-main", "color": "green", "row": 3, "col": 3 }
+        { "id": "blue-main", "color": "blue", "row": 3, "col": 2, "groupId": "duo" },
+        { "id": "green-main", "color": "green", "row": 3, "col": 3, "groupId": "duo"}
       ],
       "targets": [
         { "color": "blue", "row": 3, "col": 7 },
@@ -410,15 +410,15 @@
         ".......",
         ".......",
         "...#...",
-        "..#....",
+        ".#.....",
         "....#..",
-        "...#...",
+        "..#....",
         "......."
       ],
       "blocks": [
         { "id": "red-main", "color": "red", "row": 1, "col": 2 },
         { "id": "yellow-main", "color": "yellow", "row": 1, "col": 4 },
-        { "id": "white-main", "color": "white", "row": 4, "col": 2 },
+        { "id": "white-main", "color": "white", "row": 3, "col": 2 },
         { "id": "blue-main", "color": "blue", "row": 3, "col": 4 }
       ],
       "targets": [

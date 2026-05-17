@@ -20,6 +20,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
@@ -36,23 +39,31 @@ fun BlockSlideApp(
     viewModel: GameViewModel = viewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    var showEditor by rememberSaveable { mutableStateOf(false) }
 
     BlockSlideTheme {
         Surface(
             modifier = Modifier.fillMaxSize(),
             color = MaterialTheme.colorScheme.background,
         ) {
-            GameScreen(
-                uiState = uiState,
-                onTapCell = viewModel::tapCell,
-                onSwipeFrom = viewModel::swipeFrom,
-                onMove = viewModel::moveSelected,
-                onUndo = viewModel::undo,
-                onReset = viewModel::reset,
-                onPrevious = viewModel::previousLevel,
-                onNext = viewModel::nextLevel,
-                onLevelSelected = viewModel::openLevel,
-            )
+            if (showEditor) {
+                LevelEditorScreen(
+                    onClose = { showEditor = false },
+                )
+            } else {
+                GameScreen(
+                    uiState = uiState,
+                    onTapCell = viewModel::tapCell,
+                    onSwipeFrom = viewModel::swipeFrom,
+                    onMove = viewModel::moveSelected,
+                    onUndo = viewModel::undo,
+                    onReset = viewModel::reset,
+                    onPrevious = viewModel::previousLevel,
+                    onNext = viewModel::nextLevel,
+                    onLevelSelected = viewModel::openLevel,
+                    onOpenEditor = { showEditor = true },
+                )
+            }
         }
     }
 }
@@ -68,6 +79,7 @@ private fun GameScreen(
     onPrevious: () -> Unit,
     onNext: () -> Unit,
     onLevelSelected: (Int) -> Unit,
+    onOpenEditor: () -> Unit,
 ) {
     val gameState = uiState.gameState
     if (uiState.errorMessage != null) {
@@ -103,6 +115,7 @@ private fun GameScreen(
             uiState = uiState,
             onPrevious = onPrevious,
             onNext = onNext,
+            onOpenEditor = onOpenEditor,
         )
 
         BoardCanvas(
@@ -155,6 +168,7 @@ private fun Header(
     uiState: GameUiState,
     onPrevious: () -> Unit,
     onNext: () -> Unit,
+    onOpenEditor: () -> Unit,
 ) {
     val gameState = uiState.gameState ?: return
     Row(
@@ -189,6 +203,12 @@ private fun Header(
             enabled = !uiState.inputLocked && uiState.levelIndex < uiState.levels.lastIndex,
         ) {
             Text("Next")
+        }
+        OutlinedButton(
+            onClick = onOpenEditor,
+            enabled = !uiState.inputLocked,
+        ) {
+            Text("Editor")
         }
     }
 }
