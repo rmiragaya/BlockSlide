@@ -76,6 +76,7 @@ fun LevelEditorScreen(
     var exportedJson by remember { mutableStateOf<String?>(null) }
     val context = LocalContext.current
     val draftLevel = remember(draft) { draft.toLevel() }
+    val playtestErrors = remember(draft) { draft.playtestErrors() }
 
     fun clearGeneratedOutput() {
         exportedJson = null
@@ -83,6 +84,11 @@ fun LevelEditorScreen(
     }
 
     fun startPlaytest() {
+        if (playtestErrors.isNotEmpty()) {
+            statusText = playtestErrors.joinToString(separator = " ")
+            mode = EditorMode.Edit
+            return
+        }
         val level = draft.toLevel()
         playState = GameEngine.newGame(level)
         playAnimation = null
@@ -92,6 +98,10 @@ fun LevelEditorScreen(
     }
 
     fun runSolver() {
+        if (playtestErrors.isNotEmpty()) {
+            statusText = playtestErrors.joinToString(separator = " ")
+            return
+        }
         val result = Solver.solve(
             level = draft.toLevel(),
             maxStates = EDITOR_SOLVER_MAX_STATES,
@@ -109,7 +119,7 @@ fun LevelEditorScreen(
 
     fun applyPlayMove(blockId: String, direction: Direction) {
         val state = playState ?: return
-        if (playLocked) return
+        if (playLocked || state.isSolved || state.levelFailed) return
         val result = GameEngine.moveBlock(state = state, blockId = blockId, direction = direction)
         val animation = if (result.moved && result.movements.isNotEmpty()) {
             MoveAnimation(nonce = System.nanoTime(), movements = result.movements)
@@ -125,6 +135,21 @@ fun LevelEditorScreen(
             result.moved -> "Playtest: ${result.state.moves} movimientos."
             else -> "Playtest: ese movimiento no cambia nada."
         }
+    }
+
+    fun undoPlaytest() {
+        val state = playState ?: return
+        playState = GameEngine.undo(state)
+        playAnimation = null
+        playLocked = false
+        statusText = "Playtest: ${playState?.moves ?: 0} movimientos."
+    }
+
+    fun resetPlaytest() {
+        playState = GameEngine.newGame(draft.toLevel())
+        playAnimation = null
+        playLocked = false
+        statusText = "Playtest reiniciado."
     }
 
     LaunchedEffect(playAnimation?.nonce) {
@@ -152,6 +177,7 @@ fun LevelEditorScreen(
                 playAnimation = null
                 statusText = "Editando ${draft.width}x${draft.height}."
             },
+            canPlaytest = playtestErrors.isEmpty(),
             onPlaytest = ::startPlaytest,
         )
 
@@ -188,7 +214,7 @@ fun LevelEditorScreen(
             BoardCanvas(
                 gameState = state,
                 moveAnimation = playAnimation,
-                inputEnabled = !playLocked,
+                inputEnabled = !playLocked && !state.isSolved && !state.levelFailed,
                 onCellTap = { position ->
                     state.blockAt(position)?.let { block ->
                         playState = GameEngine.selectBlock(state, block.id)
@@ -203,6 +229,7 @@ fun LevelEditorScreen(
                     .fillMaxWidth()
                     .weight(1f),
             )
+            PlaytestResultBanner(state = state)
         }
 
         if (mode == EditorMode.Edit) {
@@ -219,13 +246,14 @@ fun LevelEditorScreen(
             PlaytestControls(
                 state = playState,
                 enabled = !playLocked,
-                onUndo = { playState = playState?.let(GameEngine::undo) },
-                onReset = { playState = GameEngine.newGame(draft.toLevel()) },
+                onUndo = ::undoPlaytest,
+                onReset = ::resetPlaytest,
             )
         }
 
         EditorActions(
             exportedJson = exportedJson,
+            canPlaytest = playtestErrors.isEmpty(),
             onValidate = ::runSolver,
             onPlaytest = ::startPlaytest,
             onExport = ::exportJson,
@@ -245,6 +273,7 @@ private fun EditorHeader(
     statusText: String,
     onClose: () -> Unit,
     onEdit: () -> Unit,
+    canPlaytest: Boolean,
     onPlaytest: () -> Unit,
 ) {
     Row(
@@ -273,7 +302,10 @@ private fun EditorHeader(
             )
         }
         if (mode == EditorMode.Edit) {
-            Button(onClick = onPlaytest) {
+            Button(
+                onClick = onPlaytest,
+                enabled = canPlaytest,
+            ) {
                 Text("Probar")
             }
         } else {
@@ -281,6 +313,34 @@ private fun EditorHeader(
                 Text("Editar")
             }
         }
+    }
+}
+
+@Composable
+private fun PlaytestResultBanner(
+    state: GameState,
+) {
+    val text = when {
+        state.isSolved -> "Nivel completo en ${state.moves} movimientos."
+        state.levelFailed -> "Una pieza necesaria se fue del tablero."
+        else -> null
+    } ?: return
+    val color = if (state.isSolved) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.error
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(color.copy(alpha = 0.12f))
+            .border(width = 1.dp, color = color)
+            .padding(10.dp),
+        contentAlignment = Alignment.Center,
+    ) {
+        Text(
+            text = text,
+            color = color,
+            style = MaterialTheme.typography.bodyMedium,
+            fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
+        )
     }
 }
 
@@ -463,6 +523,7 @@ private fun PlaytestControls(
 @Composable
 private fun EditorActions(
     exportedJson: String?,
+    canPlaytest: Boolean,
     onValidate: () -> Unit,
     onPlaytest: () -> Unit,
     onExport: () -> Unit,
@@ -479,12 +540,14 @@ private fun EditorActions(
             OutlinedButton(
                 modifier = Modifier.weight(1f),
                 onClick = onValidate,
+                enabled = canPlaytest,
             ) {
                 Text("Validar")
             }
             OutlinedButton(
                 modifier = Modifier.weight(1f),
                 onClick = onPlaytest,
+                enabled = canPlaytest,
             ) {
                 Text("Probar")
             }
@@ -667,15 +730,27 @@ private data class LevelDraft(
         )
 
     fun warnings(): List<String> =
+        playtestErrors()
+
+    fun playtestErrors(): List<String> =
         buildList {
-            if (blocks.none { it.required }) add("Falta al menos un bloque requerido.")
-            if (targets.isEmpty()) add("Falta al menos un objetivo.")
-            val targetColors = targets.map { it.color }.toSet()
-            val blockColors = blocks.filter { it.required }.map { it.color }.toSet()
-            val missingTargets = blockColors - targetColors
-            val missingBlocks = targetColors - blockColors
-            if (missingTargets.isNotEmpty()) add("Sin objetivo para: ${missingTargets.joinToString { it.name }}.")
-            if (missingBlocks.isNotEmpty()) add("Sin bloque requerido para: ${missingBlocks.joinToString { it.name }}.")
+            val requiredBlocksByColor = blocks
+                .filter { it.required }
+                .groupingBy { it.color }
+                .eachCount()
+            val targetsByColor = targets
+                .groupingBy { it.color }
+                .eachCount()
+            if (requiredBlocksByColor.values.sum() == 0) add("Falta al menos una pieza requerida.")
+            if (targetsByColor.values.sum() == 0) add("Falta al menos un objetivo.")
+
+            BlockColor.entries.forEach { color ->
+                val blockCount = requiredBlocksByColor[color] ?: 0
+                val targetCount = targetsByColor[color] ?: 0
+                if (blockCount != targetCount) {
+                    add("${color.name}: $targetCount objetivos y $blockCount piezas.")
+                }
+            }
         }
 
     private fun withCell(

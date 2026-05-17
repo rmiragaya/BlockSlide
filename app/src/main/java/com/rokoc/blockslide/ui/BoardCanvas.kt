@@ -68,6 +68,8 @@ fun BoardCanvas(
     val latestScale by rememberUpdatedState(boardScale)
     val latestLayout by rememberUpdatedState(layout)
     val latestInputEnabled by rememberUpdatedState(inputEnabled)
+    val latestOnCellTap by rememberUpdatedState(onCellTap)
+    val latestOnSwipeFrom by rememberUpdatedState(onSwipeFrom)
 
     val transformState = rememberTransformableState { zoomChange, panChange, _ ->
         val nextScale = (boardScale * zoomChange).coerceIn(0.85f, 3f)
@@ -124,14 +126,14 @@ fun BoardCanvas(
                                 pan = latestPan,
                                 scale = latestScale,
                             )?.let { startCell ->
-                                onSwipeFrom(startCell, delta.toDirection())
+                                latestOnSwipeFrom(startCell, delta.toDirection())
                             }
                         } else if (distance < 18f) {
                             latestLayout.positionAt(
                                 screenOffset = start,
                                 pan = latestPan,
                                 scale = latestScale,
-                            )?.let(onCellTap)
+                            )?.let(latestOnCellTap)
                         }
                     }
                 }
